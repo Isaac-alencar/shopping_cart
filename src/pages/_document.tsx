@@ -4,6 +4,7 @@ export default function Document() {
   return (
     <Html lang="en">
       <Head />
+      <title>Shopping Cart</title>
       <body className="antialiased">
         <Main />
         <NextScript />
