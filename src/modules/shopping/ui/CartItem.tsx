@@ -8,7 +8,7 @@ export const CartItems = ({ items }: CartItemsProp) => {
   return (
     <div className="mt-4 p-4 col-span-3">
       <h3 className="text-xl font-bold">Items</h3>
-      <ul className="border-t border-zinc-300 py-2">
+      <ul className="flex flex-col gap-4border-t border-zinc-300 py-2">
         {items &&
           items.map(({ product, quantity }) => {
             return (

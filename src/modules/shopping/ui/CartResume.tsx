@@ -1,9 +1,19 @@
-export const CartResume = () => {
+type CartPropsResume = {
+  totalPrice: number;
+  discountValue: number;
+  totalItemsPrice: number;
+};
+
+export const CartResume = ({
+  discountValue,
+  totalItemsPrice,
+  totalPrice,
+}: CartPropsResume) => {
   return (
     <div className="border border-zinc-400 rounded-md p-4 bg-slate-100 col-span-2">
-      <Section title="Subtotal" value={80.75} />
-      <Section title="Discount" value={0} />
-      <Section title="Total" value={80.75} />
+      <Section title="Subtotal" value={totalItemsPrice} />
+      <Section title="Discount" value={discountValue} />
+      <Section title="Total" value={totalPrice} />
 
       <button
         type="button"

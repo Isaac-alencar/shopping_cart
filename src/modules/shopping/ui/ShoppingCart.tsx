@@ -2,8 +2,11 @@ import Link from "next/link";
 import { Header } from "../shared/components/Header";
 import { CartItems } from "./CartItem";
 import { CartResume } from "./CartResume";
+import { useShoppingCart } from "../application/useShoppingCart";
 
 export const ShoppingCart = () => {
+  const { cart } = useShoppingCart();
+
   return (
     <main className="container mx-auto p-4 md:p-8">
       <Header
@@ -16,8 +19,12 @@ export const ShoppingCart = () => {
       />
 
       <div className="md:grid md:grid-cols-5 md:items-start mt-8 gap-20">
-        <CartItems items={[]} />
-        <CartResume />
+        <CartItems items={cart.items} />
+        <CartResume
+          discountValue={cart.discountValue}
+          totalItemsPrice={cart.totalItemsPrice}
+          totalPrice={cart.totalPrice}
+        />
       </div>
     </main>
   );

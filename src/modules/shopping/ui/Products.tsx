@@ -1,8 +1,11 @@
 import Link from "next/link";
 import { Header } from "../shared/components/Header";
 import { ProductCard } from "./ProductCard";
+import { useShoppingCart } from "../application/useShoppingCart";
 
 export const Products = () => {
+  const { cart, addToCart } = useShoppingCart();
+
   return (
     <main className="container mx-auto p-4 md:p-8">
       <Header
@@ -10,7 +13,7 @@ export const Products = () => {
         headerLink={() => (
           <Link href={`/cart`}>
             <span className="text-zinc-500 font-semibold">
-              Items on cart: 1
+              Items on cart: {cart.quantity}
             </span>
           </Link>
         )}
@@ -21,8 +24,8 @@ export const Products = () => {
           return (
             <ProductCard
               key={product.id}
-              name={product.name}
-              price={product.price}
+              product={product}
+              onClick={() => addToCart({ product, quantity: 1 })}
             />
           );
         })}
