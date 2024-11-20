@@ -5,7 +5,7 @@ import { CartResume } from "./CartResume";
 import { useShoppingCart } from "../application/useShoppingCart";
 
 export const ShoppingCart = () => {
-  const { cart } = useShoppingCart();
+  const { cart, removeFromCart } = useShoppingCart();
 
   return (
     <main className="container mx-auto p-4 md:p-8">
@@ -19,7 +19,7 @@ export const ShoppingCart = () => {
       />
 
       <div className="md:grid md:grid-cols-5 md:items-start mt-8 gap-20">
-        <CartItems items={cart.items} />
+        <CartItems items={cart.items} onRemoveFromCart={removeFromCart} />
         <CartResume
           discountValue={cart.discountValue}
           totalItemsPrice={cart.totalItemsPrice}
