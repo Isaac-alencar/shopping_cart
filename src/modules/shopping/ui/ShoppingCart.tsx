@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Header } from "../shared/components/Header";
-import { CartItems } from "./CartItem";
+import { CartItems } from "./CartItems";
 import { CartResume } from "./CartResume";
 import { useShoppingCart } from "../application/useShoppingCart";
 
