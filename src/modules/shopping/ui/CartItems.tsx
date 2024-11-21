@@ -31,8 +31,8 @@ export const CartItems = ({
                 name={product.name}
                 price={product.price}
                 quantity={quantity}
-                onRemove={() => handleRemove({ product, quantity })}
-                onAdd={() => handleAddToCart({ product, quantity })}
+                onRemove={() => handleRemove({ product, quantity: 1 })}
+                onAdd={() => handleAddToCart({ product, quantity: 1 })}
               />
             );
           })}
