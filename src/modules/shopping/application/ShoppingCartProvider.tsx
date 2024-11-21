@@ -1,29 +1,10 @@
-import {
-  createContext,
-  PropsWithChildren,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
-import {
-  addItem,
-  Cart,
-  CartItem,
-  removeItem,
-  updateCartValues,
-} from "../domain/Cart";
+import { useReducer, PropsWithChildren } from "react";
+import { ShoppingCartContext } from "./ShoppingCartContext";
+import shoppingCartReducer from "./ShoppingCartReducer";
 
-type ShoppingCartContextProps = {
-  cart: Cart;
-  addToCart: (item: CartItem) => void;
-  removeFromCart: (item: CartItem) => void;
-};
+import { Cart, CartItem } from "../domain/Cart";
 
-export const ShoppingCartContext = createContext<ShoppingCartContextProps>(
-  {} as ShoppingCartContextProps
-);
-
-const initialCartState = {
+const initialCartState: Cart = {
   items: [],
   totalItemsPrice: 0,
   totalPrice: 0,
@@ -32,44 +13,21 @@ const initialCartState = {
 };
 
 export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
-  const [cart, setCart] = useState<Cart>(initialCartState);
+  const [cart, dispatch] = useReducer(shoppingCartReducer, initialCartState);
 
-  const addToCart = useCallback(
-    (item: CartItem) => {
-      const nextItems = addItem(item, cart.items);
-      const nextCart = updateCartValues({
-        ...cart,
-        quantity: cart.quantity + item.quantity,
-        items: nextItems,
-      });
+  const addToCart = (item: CartItem) => {
+    dispatch({ type: "ADD_ITEM", item });
+  };
 
-      setCart(nextCart);
-    },
-    [cart]
-  );
+  const removeFromCart = (item: CartItem) => {
+    dispatch({ type: "REMOVE_ITEM", item });
+  };
 
-  const removeFromCart = useCallback(
-    (item: CartItem) => {
-      const nextItems = removeItem(item, cart.items);
-      const nextCart = updateCartValues({
-        ...cart,
-        quantity: cart.quantity - 1,
-        items: nextItems,
-      });
-
-      setCart(nextCart);
-    },
-    [cart]
-  );
-
-  const value = useMemo(
-    () => ({
-      addToCart,
-      removeFromCart,
-      cart,
-    }),
-    [cart, addToCart, removeFromCart]
-  );
+  const value = {
+    cart,
+    addToCart,
+    removeFromCart,
+  };
 
   return (
     <ShoppingCartContext.Provider value={value}>
