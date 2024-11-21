@@ -13,55 +13,59 @@ export type Cart = {
   discountValue: number;
 };
 
-// TODO: improve this file. how do I will test this?
-// TODO: improve this to remove duplicates only update it
+export const addItem = (item: CartItem, cartItems: CartItem[]) => {
+  const existingItem = cartItems.some(
+    (cartItem) => cartItem.product.id === item.product.id
+  );
 
-export const addItem = (item: CartItem, cart: Cart) => {
-  const nextItems = [...cart.items, item];
+  const nextItems = existingItem
+    ? cartItems.map((cartItem) =>
+        cartItem.product.id === item.product.id
+          ? { ...cartItem, quantity: cartItem.quantity + item.quantity }
+          : cartItem
+      )
+    : [...cartItems, item];
 
-  const updatedCart = {
-    ...cart,
-    items: nextItems,
-    quantity: cart.quantity + item.quantity,
-  };
+  return nextItems;
+};
 
-  const totalItemsPrice = calculateTotalItems(cart.items, cart.totalItemsPrice);
-  const discount = calculateDiscount(updatedCart.items);
-  const totalPrice = totalItemsPrice - discount;
+export const removeItem = (item: CartItem, cartItems: CartItem[]) => {
+  return cartItems
+    .map((cartItem) => {
+      if (cartItem.product.id === item.product.id) {
+        const updatedItem = {
+          ...cartItem,
+          quantity: cartItem.quantity - 1,
+        };
+
+        return updatedItem;
+      }
+
+      return cartItem;
+    })
+    .filter((item) => item.quantity > 0);
+};
+
+export const updateCartValues = (cart: Cart): Cart => {
+  const totalItemsPrice = calculateTotalItems(cart.items);
+  const discount = calculateDiscount(cart.items);
+  const totalPrice = Number((totalItemsPrice - discount).toFixed(2));
 
   return {
-    ...updatedCart,
-    totalItemsPrice,
-    totalPrice,
-    discountValue: discount,
-  };
-};
-
-// TODO: refactor this
-export const removeItem = (item: CartItem, cart: Cart) => {
-  const updatedCartItems = cart.items.filter(
-    (cartItem) => cartItem.product.id != item.product.id
-  );
-
-  const updatedCart = {
     ...cart,
-    items: updatedCartItems,
-    quantity: cart.quantity - item.quantity,
+    totalItemsPrice,
+    discountValue: discount,
+    totalPrice,
   };
-
-  const discount = calculateDiscount(updatedCart.items);
-  const totalPrice = updatedCart.totalPrice - discount;
-
-  return { ...updatedCart, totalPrice };
 };
 
-const calculateTotalItems = (items: CartItem[], totalItemsPrice: number) => {
+const calculateTotalItems = (items: CartItem[]) => {
   const totalCartItems = items.reduce(
-    (acc, current) => acc + current.product.price,
-    totalItemsPrice
+    (acc, current) => acc + current.product.price * current.quantity,
+    0
   );
 
-  return Math.floor(Number(totalCartItems.toFixed(2)));
+  return Number(totalCartItems.toFixed(2));
 };
 
 const calculateDiscount = (items: CartItem[]) => {

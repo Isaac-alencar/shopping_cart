@@ -5,7 +5,13 @@ import {
   useMemo,
   useState,
 } from "react";
-import { addItem, Cart, CartItem, removeItem } from "../domain/Cart";
+import {
+  addItem,
+  Cart,
+  CartItem,
+  removeItem,
+  updateCartValues,
+} from "../domain/Cart";
 
 type ShoppingCartContextProps = {
   cart: Cart;
@@ -30,16 +36,28 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
 
   const addToCart = useCallback(
     (item: CartItem) => {
-      const updatedCart = addItem(item, cart);
-      setCart(updatedCart);
+      const nextItems = addItem(item, cart.items);
+      const nextCart = updateCartValues({
+        ...cart,
+        quantity: cart.quantity + item.quantity,
+        items: nextItems,
+      });
+
+      setCart(nextCart);
     },
     [cart]
   );
 
   const removeFromCart = useCallback(
     (item: CartItem) => {
-      const updatedCart = removeItem(item, cart);
-      setCart(updatedCart);
+      const nextItems = removeItem(item, cart.items);
+      const nextCart = updateCartValues({
+        ...cart,
+        quantity: cart.quantity - 1,
+        items: nextItems,
+      });
+
+      setCart(nextCart);
     },
     [cart]
   );
