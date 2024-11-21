@@ -2,12 +2,21 @@ import { CartItem } from "../domain/Cart";
 
 type CartItemsProp = {
   items: CartItem[];
+  onAddItemToCart: (cartItem: CartItem) => void;
   onRemoveFromCart: (cartItem: CartItem) => void;
 };
 
-export const CartItems = ({ items, onRemoveFromCart }: CartItemsProp) => {
-  const handleClick = (cartItem: CartItem) => {
+export const CartItems = ({
+  items,
+  onRemoveFromCart,
+  onAddItemToCart,
+}: CartItemsProp) => {
+  const handleRemove = (cartItem: CartItem) => {
     onRemoveFromCart(cartItem);
+  };
+
+  const handleAddToCart = (cartItem: CartItem) => {
+    onAddItemToCart(cartItem);
   };
 
   return (
@@ -22,7 +31,8 @@ export const CartItems = ({ items, onRemoveFromCart }: CartItemsProp) => {
                 name={product.name}
                 price={product.price}
                 quantity={quantity}
-                onClick={() => handleClick({ product, quantity })}
+                onRemove={() => handleRemove({ product, quantity })}
+                onAdd={() => handleAddToCart({ product, quantity })}
               />
             );
           })}
@@ -35,10 +45,11 @@ type ItemProps = {
   name: string;
   quantity: number;
   price: number;
-  onClick: () => void;
+  onRemove: () => void;
+  onAdd: () => void;
 };
 
-const Item = ({ name, price, quantity, onClick }: ItemProps) => (
+const Item = ({ name, price, quantity, onAdd, onRemove }: ItemProps) => (
   <li className="flex justify-between items-center gap-8 border-b border-zinc-200 last:border-0">
     <span className="text-zinc-500 font-bold">
       {quantity}x {name}
@@ -46,7 +57,14 @@ const Item = ({ name, price, quantity, onClick }: ItemProps) => (
     <div className="flex items-center gap-2 my-2">
       <strong>$ {price}</strong>
       <button
-        onClick={onClick}
+        onClick={onAdd}
+        type="button"
+        className="p-2 bg-blue-500 hover:bg-blue-400 focus:ring-blue-300 text-white rounded-md"
+      >
+        Add 1
+      </button>
+      <button
+        onClick={onRemove}
         type="button"
         className="p-2 bg-red-500 hover:bg-red-400 focus:ring-red-300 text-white rounded-md"
       >
