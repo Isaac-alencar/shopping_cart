@@ -1,4 +1,4 @@
-import { useReducer, PropsWithChildren } from "react";
+import { useReducer, ReactNode } from "react";
 import { ShoppingCartContext } from "./ShoppingCartContext";
 import shoppingCartReducer from "./ShoppingCartReducer";
 
@@ -12,8 +12,16 @@ const initialCartState: Cart = {
   discountValue: 0,
 };
 
-export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
-  const [cart, dispatch] = useReducer(shoppingCartReducer, initialCartState);
+type ShoppingCartProviderProps = {
+  cart?: Cart;
+  children: ReactNode;
+};
+
+export const ShoppingCartProvider = ({
+  children,
+  cart = initialCartState,
+}: ShoppingCartProviderProps) => {
+  const [cartState, dispatch] = useReducer(shoppingCartReducer, cart);
 
   const addToCart = (item: CartItem) => {
     dispatch({ type: "ADD_ITEM", item });
@@ -24,7 +32,7 @@ export const ShoppingCartProvider = ({ children }: PropsWithChildren) => {
   };
 
   const value = {
-    cart,
+    cart: cartState,
     addToCart,
     removeFromCart,
   };
