@@ -7,13 +7,18 @@
 
 # How to run the project
 
-1. Once you unzip the folder provided, navigate to the folder. (terminal usage recommended)
+1. Clone this project
+```bash
+git clone git@github.com:Isaac-alencar/shopping_cart.git
+```
+
+2. Once you clone the repository, you'll need to navigate to the project folder
 
 ```bash
 cd ~/path/to/folder
 ```
 
-2. So, we're inside the folder. First, we'll need to install the dependencies. In order to execute locally
+3. So, we're inside the folder. First, we'll need to install the dependencies. In order to execute locally
 
 ```bash
 	npm install
@@ -25,7 +30,7 @@ cd ~/path/to/folder
 	bun install
 ```
 
-3. Now, we are able to run the project
+4. Now, we are able to run the project
 
 ```bash
 	npm run dev
