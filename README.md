@@ -2,9 +2,8 @@
 
 ## Summary
 
-[1. How to run the project](#How to run the project "1. How to run the project")
-
-[2. Architecture and design decision](#Architecture and design decisions "2. Architecture and design decision")
+1. [How to run the project](#how-to-run-the-project)
+2. [Architecture and design decisions](#architecture-and-design-decisions)
 
 # How to run the project
 
