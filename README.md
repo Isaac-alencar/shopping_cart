@@ -57,7 +57,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 # Architecture and design decisions
 
-I want to highlight the "_tech-stack_" I choose to build this project
+Before dig into the archecture topic, it is important to mention the tech stack defined to build the project
 
 - [Next.js ](https://nextjs.org/docs) - Next js has a out of the box routing mechanism using pages folder. This is a convenience when setting up your application
 - [Tailwindcss ](https://tailwindcss.com/) - Tailwindcss give a developer a agility to build some cool interfaces, with the mobile-first approach we can easily build responsiveness UI
@@ -66,10 +66,10 @@ I want to highlight the "_tech-stack_" I choose to build this project
 
 ## Architecture
 
-I decided to follow a architecture based on four layers, as following
+This project follows the Four-Layer Architecture principle, dividing responsibilities into Presentation(UI), Application, Domain, and Infrastructure layers. This structure promotes maintainability, testability, and scalability by clearly separating concerns and ensuring each layer has a single purpose.
 
 - **Domain** - Business rules, core of application
-- **Infra** - Communication with third part applications/resources
+- **Infrastructure** - Communication with third part applications/resources
 - **Application** - Use cases, connecting business rules with user actions
 - **UI** - Presentation layer, the user interface itself
 
